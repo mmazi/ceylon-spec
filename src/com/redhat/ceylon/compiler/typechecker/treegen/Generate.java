@@ -4,6 +4,7 @@ package com.redhat.ceylon.compiler.typechecker.treegen;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 
 import org.antlr.runtime.ANTLRInputStream;
@@ -21,6 +22,9 @@ public class Generate {
         visitor(file);
         visitorAdaptor(file);
         validator(file);
+        ideaPsiIntf(file);
+        ideaPsiImpl(file);
+        ideaPsiFactory(file);
     }
     
     private static void tree(File file) throws Exception {
@@ -82,7 +86,7 @@ public class Generate {
         Util.out=new PrintStream(out);
         parser.nodeList();
     }
-    
+
     private static void validator(File file) throws Exception {
         InputStream is = new FileInputStream( file );
         ANTLRInputStream input = new ANTLRInputStream(is);
@@ -94,5 +98,51 @@ public class Generate {
         Util.out=new PrintStream(out);
         parser.nodeList();
     }
-    
+
+    private static void ideaAstTypes(File file) throws Exception {
+        ANTLRInputStream input = getAntlrInputStream(file);
+        IdeaAstTypesGenLexer lexer = new IdeaAstTypesGenLexer(input);
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        IdeaAstTypesGenParser parser = new IdeaAstTypesGenParser(tokens);
+        setOut("CeylonTypes");
+        parser.nodeList();
+    }
+
+    private static void ideaPsiIntf(File file) throws Exception {
+        ANTLRInputStream input = getAntlrInputStream(file);
+        PsiIntfGenLexer lexer = new PsiIntfGenLexer(input);
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        PsiIntfGenParser parser = new PsiIntfGenParser(tokens);
+        setOut("CeylonPsi");
+        parser.nodeList();
+    }
+
+    private static void ideaPsiImpl(File file) throws Exception {
+        ANTLRInputStream input = getAntlrInputStream(file);
+        PsiImplGenLexer lexer = new PsiImplGenLexer(input);
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        PsiImplGenParser parser = new PsiImplGenParser(tokens);
+        setOut("CeylonPsiImpl");
+        parser.nodeList();
+    }
+
+    private static void ideaPsiFactory(File file) throws Exception {
+        ANTLRInputStream input = getAntlrInputStream(file);
+        PsiFactoryGenLexer lexer = new PsiFactoryGenLexer(input);
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        PsiFactoryGenParser parser = new PsiFactoryGenParser(tokens);
+        setOut("CeylonPsiFactory");
+        parser.nodeList();
+    }
+
+    private static void setOut(String fileNameBase) throws IOException {
+        File out = new File( GENERATED_PACKAGE_DIR + fileNameBase + ".java");
+        out.createNewFile();
+        Util.out=new PrintStream(out);
+    }
+
+    private static ANTLRInputStream getAntlrInputStream(File file) throws IOException {InputStream is = new FileInputStream(file);
+        return new ANTLRInputStream(is);
+    }
+
 }
