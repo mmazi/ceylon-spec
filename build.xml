@@ -346,6 +346,10 @@
             <arg value="treegen/Walkergen.g"/>
             <arg value="treegen/Visitorgen.g"/>
             <arg value="treegen/Validatorgen.g"/>
+            <arg value="treegen/IdeaAstTypesGen.g"/>
+            <arg value="treegen/PsiIntfGen.g"/>
+            <arg value="treegen/PsiImplGen.g"/>
+            <arg value="treegen/PsiFactoryGen.g"/>
             <classpath>
                 <pathelement location="${antlr.lib}"/>
             </classpath>
