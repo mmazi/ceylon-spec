@@ -350,6 +350,7 @@
             <arg value="treegen/PsiIntfGen.g"/>
             <arg value="treegen/PsiImplGen.g"/>
             <arg value="treegen/PsiFactoryGen.g"/>
+            <arg value="treegen/NodeToIElementTypeMapGen.g"/>
             <classpath>
                 <pathelement location="${antlr.lib}"/>
             </classpath>
