@@ -23,7 +23,7 @@ nodeList : {
 node : '^' '(' 
        { print("    public static "); }
        ('abstract'
-//        { print("abstract "); }
+        { print("abstract "); }
        )?
        { print("class "); }
        n=NODE_NAME 
