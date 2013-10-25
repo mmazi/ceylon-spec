@@ -36,7 +36,8 @@ nodeList : {
 
 node : '^' '('
        (
-         'abstract'? n=NODE_NAME
+         'abstract' NODE_NAME
+         | n=NODE_NAME
          {
           println("        } else if (type == " + $n.text + ") {");
           println("            return new " + className($n.text) + "PsiImpl(node);");
