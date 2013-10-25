@@ -25,6 +25,7 @@ public class Generate {
         ideaPsiIntf(file);
         ideaPsiImpl(file);
         ideaPsiFactory(file);
+        ideaNodeToIElementTypeMap(file);
     }
     
     private static void tree(File file) throws Exception {
@@ -132,6 +133,15 @@ public class Generate {
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         PsiFactoryGenParser parser = new PsiFactoryGenParser(tokens);
         setOut("CeylonPsiFactory");
+        parser.nodeList();
+    }
+
+    private static void ideaNodeToIElementTypeMap(File file) throws Exception {
+        ANTLRInputStream input = getAntlrInputStream(file);
+        NodeToIElementTypeMapGenLexer lexer = new NodeToIElementTypeMapGenLexer(input);
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        NodeToIElementTypeMapGenParser parser = new NodeToIElementTypeMapGenParser(tokens);
+        setOut("NodeToIElementTypeMap");
         parser.nodeList();
     }
 
