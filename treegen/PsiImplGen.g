@@ -11,6 +11,7 @@ grammar PsiImplGen;
 nodeList : { 
            println("package org.intellij.plugins.ceylon.psi;\n");
            println("import com.intellij.lang.ASTNode;");
+           println("import com.redhat.ceylon.compiler.typechecker.tree.Tree;");
            println("import org.intellij.plugins.ceylon.psi.impl.CeylonCompositeElementImpl;");
            println("/* Generated using Antlr by PsiImplGen.g */");
            println("\npublic class CeylonPsiImpl {\n");
@@ -31,6 +32,7 @@ node : '^' '('
        extendsNode
        { println("\n            implements CeylonPsi." + className($n.text) + "Psi {"); }
        { println("        public " + className($n.text) + "PsiImpl(ASTNode astNode) { super(astNode); }" ); }
+       { println("        @Override public Tree." + className($n.text) + " getCeylonNode() { return (Tree." + className($n.text) + ") super.getCeylonNode(); }" ); }
        (memberDescription? subnode)*
        (memberDescription? field)*
        ')' 
