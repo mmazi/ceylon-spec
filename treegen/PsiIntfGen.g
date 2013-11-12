@@ -10,7 +10,7 @@ grammar PsiIntfGen;
 
 nodeList : { 
            println("package org.intellij.plugins.ceylon.psi;\n");
-           println("import org.intellij.plugins.ceylon.psi.CeylonCompositeElement;");
+           println("import com.redhat.ceylon.compiler.typechecker.tree.Tree;");
            println("/* Generated using Antlr by PsiIntfGen.g */");
            println("\npublic class CeylonPsi {\n");
            }
@@ -26,7 +26,9 @@ node : '^' '('
        n=NODE_NAME 
        { print(className($n.text) + "Psi"); }
        extendsNode
-       { println(" {}"); }
+       { println(" {"); }
+       { println("        @Override Tree." + className($n.text) + " getCeylonNode();"); }
+       { println("    }\n"); }
        (memberDescription? subnode)*
        (memberDescription? field)*
        ')' 
