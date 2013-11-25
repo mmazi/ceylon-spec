@@ -27,9 +27,17 @@ node : '^' '('
         { print("abstract "); }
        )?
        { print("class "); }
-       n=NODE_NAME 
-       { print(className($n.text) + "PsiImpl"); }
-       extendsNode
+       n=NODE_NAME
+       (
+           { $n.text.equals("META_LITERAL") }?=> (
+             { print("MetaLiteralPsiImpl extends InjectableLiteral"); }
+             ':' NODE_NAME
+           )
+           |
+           ( { print(className($n.text) + "PsiImpl"); }
+             extendsNode
+           )
+       )
        { println("\n            implements CeylonPsi." + className($n.text) + "Psi {"); }
        { println("        public " + className($n.text) + "PsiImpl(ASTNode astNode) { super(astNode); }" ); }
        { println("        @Override public Tree." + className($n.text) + " getCeylonNode() { return (Tree." + className($n.text) + ") super.getCeylonNode(); }" ); }
