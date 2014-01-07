@@ -12,6 +12,7 @@ nodeList : {
            println("package org.intellij.plugins.ceylon.psi;\n");
            println("import com.intellij.lang.ASTNode;");
            println("import com.redhat.ceylon.compiler.typechecker.tree.Tree;");
+           println("import org.intellij.plugins.ceylon.codeInsight.resolve.*;");
            println("import org.intellij.plugins.ceylon.psi.impl.CeylonCompositeElementImpl;");
            println("/* Generated using Antlr by PsiImplGen.g */");
            println("\npublic class CeylonPsiImpl {\n");
@@ -31,7 +32,22 @@ node : '^' '('
        (
            { $n.text.equals("META_LITERAL") }?=> (
              { print("MetaLiteralPsiImpl extends InjectableLiteral"); }
-             ':' NODE_NAME
+             (':' NODE_NAME)?
+           )
+           |
+           { $n.text.equals("DECLARATION") }?=> (
+             { print("DeclarationPsiImpl extends IdentifiableStatement"); }
+             (':' NODE_NAME)?
+           )
+           |
+           { $n.text.equals("BASE_MEMBER_EXPRESSION") }?=> (
+             { print("BaseMemberExpressionPsiImpl extends IdentifiableBaseMemberExpression"); }
+             (':' NODE_NAME)?
+           )
+           |
+           { $n.text.equals("IDENTIFIER") }?=> (
+             { print("IdentifierPsiImpl extends CeylonResolvable"); }
+             (':' NODE_NAME)?
            )
            |
            ( { print(className($n.text) + "PsiImpl"); }
