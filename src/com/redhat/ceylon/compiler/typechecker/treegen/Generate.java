@@ -26,6 +26,7 @@ public class Generate {
         ideaPsiImpl(file);
         ideaPsiFactory(file);
         ideaNodeToIElementTypeMap(file);
+        ideaAstTypes(file);
     }
     
     private static void tree(File file) throws Exception {
