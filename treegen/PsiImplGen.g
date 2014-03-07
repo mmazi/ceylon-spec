@@ -35,11 +35,6 @@ node : '^' '('
              (':' NODE_NAME)?
            )
            |
-           { $n.text.equals("DECLARATION") }?=> (
-             { print("DeclarationPsiImpl extends IdentifiableStatement"); }
-             (':' NODE_NAME)?
-           )
-           |
            { $n.text.equals("BASE_MEMBER_EXPRESSION") }?=> (
              { print("BaseMemberExpressionPsiImpl extends IdentifiableBaseMemberExpression"); }
              (':' NODE_NAME)?
@@ -63,8 +58,17 @@ node : '^' '('
        { println("    }\n"); }
      ;
 
-extendsNode : ':' n=NODE_NAME 
-              { print(" extends " + className($n.text) + "PsiImpl"); }
+extendsNode :
+            ':' n=NODE_NAME (
+              { $n.text.equals("DECLARATION") }?=> (
+                { print(" extends DeclarationPsiNameIdOwner"); }
+              )
+              |
+              { $n.text.equals("PARAMETER_DECLARATION") }?=> (
+                { print(" extends ParameterDeclarationPsiIdOwner"); }
+              )
+              | { print(" extends " + className($n.text) + "PsiImpl"); }
+            )
             | { print(" extends CeylonCompositeElementImpl"); }
             ;
 
