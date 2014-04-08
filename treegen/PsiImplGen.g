@@ -30,11 +30,6 @@ node : '^' '('
        { print("class "); }
        n=NODE_NAME
        (
-           { $n.text.equals("META_LITERAL") }?=> (
-             { print("MetaLiteralPsiImpl extends InjectableLiteral"); }
-             (':' NODE_NAME)?
-           )
-           |
            { $n.text.equals("BASE_MEMBER_EXPRESSION") }?=> (
              { print("BaseMemberExpressionPsiImpl extends IdentifiableBaseMemberExpression"); }
              (':' NODE_NAME)?
